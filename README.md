@@ -41,3 +41,17 @@ the Host header is checked, and every call needs the pairing token.
 - Android 15 caps `dataSync` foreground services at about 6 h/day, so "always on" integration can be cut off
 - Cancelled navigations may leave a blank tab in Firefox
 - Placeholder launcher icon
+
+## Create a GitHub release
+
+In GitHub, open **Actions → Build and release → Run workflow**, select the branch,
+and click **Run workflow**. Once the run succeeds, its GitHub release contains
+`fetchly-debug.apk` and `fetchly-firefox-extension.zip`. Each run creates a unique
+build tag. The workflow needs permission to write repository contents and create releases.
+
+The APK is a debug build, signed with a runner-generated debug key. Keys may differ
+between runs, so installing a later build over an earlier one may require uninstalling
+it first (which removes app data). For stable updates, use a securely stored release
+signing key. The extension ZIP is unsigned: submit it to Mozilla for signing before
+permanent installation, or load it temporarily for testing. The Android app has not
+been verified to compile yet, so the workflow may expose build errors that need fixing.
