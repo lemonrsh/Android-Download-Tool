@@ -1,0 +1,48 @@
+name: Build and release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Build installable debug APK
+        run: gradle --no-daemon assembleDebug
+
+      - name: Package Firefox extension
+        run: |
+          cd extension
+          zip -r ../fetchly-firefox-extension.zip . -x '*.git*'
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: build-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk fetchly-debug.apk
+          gh release create "$RELEASE_TAG" \
+            --target "$GITHUB_SHA" \
+            --title "Fetchly $RELEASE_TAG" \
+            --notes "Automated build from $GITHUB_SHA. The APK is a debug build; the Firefox extension ZIP is unsigned." \
+            fetchly-debug.apk fetchly-firefox-extension.zip
