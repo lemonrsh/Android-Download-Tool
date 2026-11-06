@@ -14,11 +14,27 @@ but none of its code, assets or name were reused.
   detects videos/audio on each page (toolbar popup + badge count), and shows a floating
   Download button over playing videos. HLS/DASH streams are listed but not downloadable yet.
 
-## Build the app
-1. Open this folder in Android Studio (Koala or newer); it creates the Gradle wrapper.
-2. Run on a device or emulator with Android 10+.
-(This project was written without an Android SDK available, so it has not been compiled yet.
-Expect to fix a few small compile errors on first build.)
+## Build with GitHub Actions
+
+1. Open the [Build and release workflow](../../actions/workflows/release.yml).
+2. Click **Run workflow**, select `main` (or the branch you want to build), and
+   click **Run workflow** again.
+3. Wait for the run to finish. If it fails, open the run and select the failed step
+   to see the logs.
+4. Download `fetchly-debug.apk` and `fetchly-firefox-extension.zip` from the new
+   [GitHub release](../../releases). Each run creates a unique build tag.
+
+The workflow needs permission to write repository contents and create releases.
+The APK is an installable debug build signed with a runner-generated key. Because
+keys may differ between runs, updating may require uninstalling the previous build
+(which removes its app data). Use a securely stored release signing key for stable
+updates. The extension ZIP is unsigned; Mozilla must sign it for permanent installation.
+
+## Build locally
+
+Open the project in Android Studio with JDK 17 and an Android SDK installed, then
+build and run it on a device or emulator with Android 10 or newer. The repository
+has no Gradle wrapper; the GitHub workflow uses Gradle 8.7.
 
 ## Install the extension (Firefox for Android)
 - Quick test (temporary, until Firefox restarts): enable USB debugging on the phone and
@@ -42,16 +58,3 @@ the Host header is checked, and every call needs the pairing token.
 - Cancelled navigations may leave a blank tab in Firefox
 - Placeholder launcher icon
 
-## Create a GitHub release
-
-In GitHub, open **Actions → Build and release → Run workflow**, select the branch,
-and click **Run workflow**. Once the run succeeds, its GitHub release contains
-`fetchly-debug.apk` and `fetchly-firefox-extension.zip`. Each run creates a unique
-build tag. The workflow needs permission to write repository contents and create releases.
-
-The APK is a debug build, signed with a runner-generated debug key. Keys may differ
-between runs, so installing a later build over an earlier one may require uninstalling
-it first (which removes app data). For stable updates, use a securely stored release
-signing key. The extension ZIP is unsigned: submit it to Mozilla for signing before
-permanent installation, or load it temporarily for testing. The Android app has not
-been verified to compile yet, so the workflow may expose build errors that need fixing.
