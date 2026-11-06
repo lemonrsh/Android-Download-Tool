@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fetchly options</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 34rem; margin: 1.5rem auto; padding: 0 1rem; }
+    label { display: block; margin-top: 1rem; font-weight: 600; }
+    input[type=text], input[type=number] { width: 100%; box-sizing: border-box; padding: .5rem; }
+    button { margin-top: 1rem; padding: .5rem 1rem; }
+    #status { margin-top: .75rem; min-height: 1.2em; }
+  </style>
+</head>
+<body>
+  <h1>Fetchly</h1>
+  <label><input type="checkbox" id="enabled"> Send downloads to Fetchly</label>
+  <label><input type="checkbox" id="overlay"> Show a Download button on videos</label>
+  <label for="token">Pairing token (Fetchly app → Settings → Copy token)</label>
+  <input type="text" id="token" autocomplete="off" spellcheck="false">
+  <label for="minSizeMB">Ignore files smaller than (MB)</label>
+  <input type="number" id="minSizeMB" min="0" step="1">
+  <label for="extensions">Also capture these extensions</label>
+  <input type="text" id="extensions">
+  <button id="save">Save</button>
+  <button id="test">Test connection</button>
+  <div id="status"></div>
+  <h2>Recent decisions</h2>
+  <p>Open a download link, then look here. Newest first.</p>
+  <pre id="log" style="white-space: pre-wrap; word-break: break-all; font-size: .8rem"></pre>
+  <button id="clear">Clear log</button>
+  <script src="options.js"></script>
+</body>
+</html>

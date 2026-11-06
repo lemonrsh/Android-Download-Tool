@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font: 14px system-ui, sans-serif; min-width: 300px; max-width: 420px; margin: 0; padding: 10px; }
+    h1 { font-size: 15px; margin: 0 0 8px; }
+    .row { display: flex; gap: 8px; align-items: center; padding: 8px 0; border-top: 1px solid #8884; }
+    .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .meta { opacity: .6; font-size: 12px; white-space: nowrap; }
+    button { padding: 6px 12px; }
+    #msg { margin-top: 8px; min-height: 1.2em; }
+  </style>
+</head>
+<body>
+  <h1>Media on this page</h1>
+  <div id="list">Looking…</div>
+  <div id="msg"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
